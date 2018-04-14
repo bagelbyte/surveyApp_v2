@@ -48,19 +48,30 @@ class SurveyController extends Controller
         echo 'success';
     }
 
-    public function takeSurvey(Request $request, $id){
+    public function takeSurvey(Request $request, $surveyID){
         $surveyBody = $request->json()->all();
 
-        \DB::table('taken_surveys')->insert(
-            [
-                'results' => json_encode($surveyBody),
-                'user_id' => \Auth::user()->id,
-                'survey_id' => $id,
-                "created_at" =>  \Carbon\Carbon::now(),
-                "updated_at" => \Carbon\Carbon::now(),
-            ]
-        );
+        //lets make sure that this survey hasnt already been taken
 
-        echo 'success';
+        $result = \App\TakenSurvey::where('user_id', \Auth::user()->id)->where('survey_id', $surveyID)->count();
+        if($result == 0){
+            //then they havent taken this quiz before
+            \DB::table('taken_surveys')->insert(
+                [
+                    'results' => json_encode($surveyBody),
+                    'user_id' => \Auth::user()->id,
+                    'survey_id' => $surveyID,
+                    "created_at" =>  \Carbon\Carbon::now(),
+                    "updated_at" => \Carbon\Carbon::now(),
+                ]
+            );
+
+            $response = 'success';
+        }
+        else{
+            $response = 'stahp';
+        }
+
+        echo $response;
     }
 }
