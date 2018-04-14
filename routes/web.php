@@ -15,6 +15,12 @@ Auth::routes();
 
 // Route::get('/', 'AppController@index');
 
+// Route::get('/perms', function(){
+//     $user = \Auth::user();
+//     if($user->hasPermissionTo('create surveys')){
+//         //then lets serve the stuff
+//     }
+// });
 
 Route::group(['middleware' => ['permission:create surveys', 'auth']], function () {
     Route::post('/survey', 'SurveyController@addNewSurvey');
@@ -34,8 +40,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     });
 
-    Route::get('/', 'AppController@index')->name('main');
-
     //to give yourself admin
     // Route::get('/gimmeAdmin', function(){
     //     $user = \Auth::user();
@@ -43,7 +47,12 @@ Route::group(['middleware' => ['auth']], function () {
     //
     //     echo 'done genie';
     // });
+
+
+    Route::get('/', 'AppController@index')->name('main');
 });
+
+// Route::get('/init', 'InitController@start');
 
 Route::get('{any}', function ($any) {
         return redirect('/');
@@ -60,4 +69,3 @@ Route::get('{any}', function ($any) {
 // Route::post('/survey/{id}', 'SurveyController@takeSurvey')->middleware('auth');
 
 //only use for initilization!!!
-// Route::get('/init', 'InitController@start');

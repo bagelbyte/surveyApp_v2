@@ -15,16 +15,16 @@ class InitController extends Controller
      */
     public function start()
     {
-        $role = Role::create(['name' => 'admin']);
-        $permissionEdit = Permission::create(['name' => 'edit surveys']);
-        $permissionCreate = Permission::create(['name' => 'create surveys']);
+        $role = Role::create(['name' => 'admin', 'guard_name' => 'web']);
+        $permissionEdit = Permission::create(['name' => 'edit surveys', 'guard_name' => 'web']);
+        $permissionCreate = Permission::create(['name' => 'create surveys', 'guard_name' => 'web']);
 
         $role->givePermissionTo($permissionEdit);
         $role->givePermissionTo($permissionCreate);
 
 
-        $role = Role::create(['name' => 'user']);
-        $permission = Permission::create(['name' => 'take surveys']);
+        $role = Role::create(['name' => 'user', 'guard_name' => 'web']);
+        $permission = Permission::create(['name' => 'take surveys', 'guard_name' => 'web']);
 
         $role->givePermissionTo($permission);
 

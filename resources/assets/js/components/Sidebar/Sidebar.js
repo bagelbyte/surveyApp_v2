@@ -48,6 +48,12 @@ class Sidebar extends Component {
                 icon: 'icon-pencil'
               })
 
+              currentNav.items.push({
+                    name: 'Editable Surveys',
+                    url: '/survey/edit',
+                    icon: 'icon-pencil'
+                  })
+
               this.setState(currentNav)
           }
       })
